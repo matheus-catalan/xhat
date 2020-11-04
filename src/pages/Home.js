@@ -1,26 +1,34 @@
-import React, { Component } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react"
+import Footer from "../components/Footer"
+import Button from "@material-ui/core/Button"
 
 export default class HomePage extends Component {
   render() {
     return (
       <div className="home">
-        <Header></Header>
         <section>
           <div className="jumbotron jumbotron-fluid py-5">
-            <div className="container text-center py-5">
-              <h1 className="display-4">Welcome to Chatty</h1>
-              <p className="lead">A great place to share your thoughts with friends</p>
-              <div className="mt-4">
-                <Link className="btn btn-primary px-5 mr-3" to="/signup">Create New Account</Link>
-                <Link className="btn px-5" to="/login">Login to Your Account</Link>
+            <div className="container text-center py-5 mt-5">
+              <h1 className="display-4">Bem vindo ao Xhat</h1>
+              <p className="lead">
+                Um ótimo lugar para compartilhar suas idéias com amigos
+              </p>
+              <div className="mt-4 btn-home">
+                <Button
+                  className="mr-4"
+                  variant="contained"
+                  color="primary"
+                  href="/signup"
+                >
+                  Cadastrar-se
+                </Button>
+
+                <Button href="/login">Login com email</Button>
               </div>
             </div>
           </div>
         </section>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </div>
     )
   }

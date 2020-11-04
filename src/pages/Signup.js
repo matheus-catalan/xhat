@@ -1,85 +1,141 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { signup, signInWithGoogle, signInWithGitHub } from "../helpers/auth";
+import React, { Component } from "react"
+import { signup, signInWithGoogle, signInWithGitHub } from "../helpers/auth"
+import {
+  Container,
+  Button,
+  TextField,
+  Avatar,
+  CssBaseline,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+  Box,
+  Link,
+  Grid,
+} from "@material-ui/core"
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 
 export default class SignUp extends Component {
-
   constructor() {
-    super();
+    super()
     this.state = {
       error: null,
-      email: '',
-      password: '',
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.googleSignIn = this.googleSignIn.bind(this);
-    this.githubSignIn = this.githubSignIn.bind(this);
+      email: "",
+      password: "",
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.googleSignIn = this.googleSignIn.bind(this)
+    this.githubSignIn = this.githubSignIn.bind(this)
   }
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
-    });
+      [event.target.name]: event.target.value,
+    })
   }
 
   async handleSubmit(event) {
-    event.preventDefault();
-    this.setState({ error: '' });
+    event.preventDefault()
+    this.setState({ error: "" })
     try {
-      await signup(this.state.email, this.state.password);
+      await signup(this.state.email, this.state.password)
     } catch (error) {
-      this.setState({ error: error.message });
+      this.setState({ error: error.message })
     }
   }
 
   async googleSignIn() {
     try {
-      await signInWithGoogle();
+      await signInWithGoogle()
     } catch (error) {
-      this.setState({ error: error.message });
+      this.setState({ error: error.message })
     }
   }
 
   async githubSignIn() {
     try {
-      await signInWithGitHub();
+      await signInWithGitHub()
     } catch (error) {
       console.log(error)
-      this.setState({ error: error.message });
+      this.setState({ error: error.message })
     }
   }
 
   render() {
     return (
-      <div className="container">
-        <form className="mt-5 py-5 px-5" onSubmit={this.handleSubmit}>
-          <h1>
-            Sign Up to
-          <Link className="title ml-2" to="/">Chatty</Link>
-          </h1>
-          <p className="lead">Fill in the form below to create an account.</p>
-          <div className="form-group">
-            <input className="form-control" placeholder="Email" name="email" type="email" onChange={this.handleChange} value={this.state.email}></input>
-          </div>
-          <div className="form-group">
-            <input className="form-control" placeholder="Password" name="password" onChange={this.handleChange} value={this.state.password} type="password"></input>
-          </div>
-          <div className="form-group">
-            {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
-            <button className="btn btn-primary px-5" type="submit">Sign up</button>
-          </div>
-          <p>You can also sign up with any of these services</p>
-          <button className="btn btn-danger mr-2" type="button" onClick={this.googleSignIn}>
-            Sign up with Google
-          </button>
-          <button className="btn btn-secondary" type="button" onClick={this.githubSignIn}>
-            Sign up with GitHub
-          </button>
-          <hr></hr>
-          <p>Already have an account? <Link to="/login">Login</Link></p>
-        </form>
-      </div>
+      <Container className="container-signup" component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className="paper">
+          <Avatar className="avatar">
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Cadastrar-se
+          </Typography>
+          <form className="form" onSubmit={this.handleSubmit} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={this.handleChange}
+              value={this.state.email}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={this.handleChange}
+              value={this.state.password}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className="submit"
+            >
+              Salvar
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/login" variant="body2">
+                  Ja tem uma conta ?
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Typography variant="body2" color="textSecondary" align="center">
+            {"Copyright © "}
+            <Link
+              color="inherit"
+              href="https://compassionate-blackwell-571090.netlify.app/"
+            >
+              Xhat
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
+          </Typography>
+        </Box>
+      </Container>
     )
   }
 }

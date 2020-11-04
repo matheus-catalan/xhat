@@ -5,9 +5,66 @@ body {
   background-color: #fcfcfc;
 }
 
-.chat-area,
-.home {
+.chat-area {
   margin-top: 60px;
+}
+
+.home {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.home section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.home section .jumbotron {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 80%;
+}
+
+.home section div.btn-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row !important;
+}
+
+.container-signup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.container-signup .paper {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-signup .avatar {
+  margin: 10px;
+}
+
+.container-signup .form {
+  width: 100%;
+  margin-top: 10px,
+}
+
+.container-signup .submit {
+  /* margin: theme.spacing(3, 0, 2), */
 }
 
 .chat-area {
