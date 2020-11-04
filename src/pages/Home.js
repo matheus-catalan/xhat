@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import Footer from "../components/Footer"
 import Button from "@material-ui/core/Button"
 
 export default class HomePage extends Component {
