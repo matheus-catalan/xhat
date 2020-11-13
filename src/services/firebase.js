@@ -1,6 +1,7 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
+import firebase from "firebase/app"
+import "firebase/auth"
+import "firebase/database"
+import "firebase/firestore"
 
 const config = {
   apiKey: "AIzaSyBxXfvIhthwUN_cy7isq_jHAq1kCJFJiBA",
@@ -11,9 +12,9 @@ const config = {
   messagingSenderId: "861201349680",
   appId: "1:861201349680:web:0d47eb1b3d77dcb95d81f5",
   measurementId: "G-EKYLNFVK1L",
-};
+}
 
-firebase.initializeApp(config);
+firebase.initializeApp(config)
 
-export const auth = firebase.auth;
-export const db = firebase.database();
+export const auth = firebase.auth
+export const db = firebase.database()

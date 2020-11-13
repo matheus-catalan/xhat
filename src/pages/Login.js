@@ -1,6 +1,15 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
 import { signin, signInWithGoogle, signInWithGitHub } from "../helpers/auth"
+import {
+  Container,
+  Button,
+  TextField,
+  CssBaseline,
+  Typography,
+  Box,
+  Grid,
+} from "@material-ui/core"
+import { Link } from "react-router-dom"
 
 export default class Login extends Component {
   constructor() {
@@ -50,67 +59,144 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="container">
-        <form
-          className="mt-5 py-5 px-5"
-          autoComplete="off"
-          onSubmit={this.handleSubmit}
+      <Container
+        className="container-login"
+        style={{
+          height: "100vh",
+          margin: "0px",
+        }}
+        xs={12}
+        component="main"
+        maxWidth="xs"
+      >
+        <CssBaseline />
+        <Grid
+          style={{ height: "100%" }}
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
         >
-          <h1>
-            Bem vindo ao
-            <Link className="title ml-2" to="/">
-              Xhat
-            </Link>
-          </h1>
-          <div className="form-group">
-            <input
-              className="form-control"
-              placeholder="Email"
-              name="email"
-              type="email"
-              onChange={this.handleChange}
-              value={this.state.email}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              className="form-control"
-              placeholder="Password"
-              name="password"
-              onChange={this.handleChange}
-              value={this.state.password}
-              type="password"
-            />
-          </div>
-          <div className="form-group">
-            {this.state.error ? (
-              <p className="text-danger">{this.state.error}</p>
-            ) : null}
-            <button className="btn btn-primary px-5" type="submit">
-              Login
-            </button>
-          </div>
-          <p>Você também pode fazer login com qualquer um desses serviços</p>
-          <button
-            className="btn btn-danger mr-2"
-            type="button"
-            onClick={this.googleSignIn}
+          <Grid
+            container
+            item
+            className="login"
+            style={{
+              height: "85%",
+            }}
+            direction="column"
+            justify="center"
+            alignItems="center"
           >
-            Sign in with Google
-          </button>
-          <button
-            className="btn btn-secondary"
-            type="button"
-            onClick={this.githubSignIn}
+            <form
+              autoComplete="off"
+              onSubmit={this.handleSubmit}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <h1>
+                Bem vindo ao
+                <Link className="" to="/">
+                  {" "}
+                  Xhat
+                </Link>
+              </h1>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={this.handleChange}
+                value={this.state.email}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Senha"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={this.handleChange}
+                value={this.state.password}
+              />
+              <div className="form-group">
+                {this.state.error ? (
+                  <p className="text-danger">{this.state.error}</p>
+                ) : null}
+                <button className="btn btn-primary px-5" type="submit">
+                  Login
+                </button>
+              </div>
+              <p>
+                Você também pode fazer login com qualquer um desses serviços
+              </p>
+              <Box
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                }}
+              >
+                <Button
+                  className="mr-2"
+                  variant="contained"
+                  color="secondary"
+                  onClick={this.googleSignIn}
+                >
+                  Sign in with Google
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.githubSignIn}
+                >
+                  Sign in with GitHub
+                </Button>
+              </Box>
+              <hr />
+              <p>
+                Não tem uma conta? <Link to="/signup">Cadastre-se</Link>
+              </p>
+            </form>
+          </Grid>
+          <Grid
+            container
+            item
+            style={{ height: "15%" }}
+            direction="row"
+            justify="center"
+            alignItems="center"
           >
-            Sign in with GitHub
-          </button>
-          <hr />
-          <p>
-            Don't have an account? <Link to="/signup">Sign up</Link>
-          </p>
-        </form>
-      </div>
+            <Box mt={8}>
+              <Typography variant="body2" color="textSecondary" align="center">
+                {"Copyright © "}
+                <Link
+                  color="inherit"
+                  href="https://compassionate-blackwell-571090.netlify.app/"
+                >
+                  Xhat
+                </Link>{" "}
+                {new Date().getFullYear()}
+                {"."}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>{" "}
+      </Container>
     )
   }
 }

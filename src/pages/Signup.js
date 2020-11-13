@@ -41,7 +41,8 @@ export default class SignUp extends Component {
     try {
       await signup(this.state.email, this.state.password)
     } catch (error) {
-      this.setState({ error: error.message })
+      if (error.message === "The email address is badly formatted.")
+        this.setState({ error: error.message })
     }
   }
 
@@ -64,77 +65,111 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <Container className="container-signup" component="main" maxWidth="xs">
+      <Container
+        className="container-signup"
+        style={{
+          height: "100vh",
+          margin: "0px",
+        }}
+        xs={12}
+        component="main"
+        maxWidth="xs"
+      >
         <CssBaseline />
-        <div className="paper">
-          <Avatar className="avatar">
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Cadastrar-se
-          </Typography>
-          <form className="form" onSubmit={this.handleSubmit} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={this.handleChange}
-              value={this.state.email}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={this.handleChange}
-              value={this.state.password}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className="submit"
-            >
-              Salvar
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="/login" variant="body2">
-                  Ja tem uma conta ?
-                </Link>
+        <Grid
+          style={{ height: "100%" }}
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+        >
+          <Grid
+            container
+            item
+            className="signup"
+            style={{ height: "85%" }}
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Avatar className="avatar">
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Cadastrar-se
+            </Typography>
+            <form className="form" onSubmit={this.handleSubmit} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={this.handleChange}
+                value={this.state.email}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Senha"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={this.handleChange}
+                value={this.state.password}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Lembra senha ?"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
+                Salvar
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="/login" variant="body2">
+                    Ja tem uma conta ?
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={8}>
-          <Typography variant="body2" color="textSecondary" align="center">
-            {"Copyright © "}
-            <Link
-              color="inherit"
-              href="https://compassionate-blackwell-571090.netlify.app/"
-            >
-              Xhat
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-          </Typography>
-        </Box>
+            </form>
+          </Grid>
+          <Grid
+            container
+            item
+            style={{ height: "15%" }}
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+            <Box mt={8}>
+              <Typography variant="body2" color="textSecondary" align="center">
+                {"Copyright © "}
+                <Link
+                  color="inherit"
+                  href="https://compassionate-blackwell-571090.netlify.app/"
+                >
+                  Xhat
+                </Link>{" "}
+                {new Date().getFullYear()}
+                {"."}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </Container>
     )
   }
