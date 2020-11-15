@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react"
+import React, { Component } from "react"
 import Header from "../components/Header"
 import Conversation from "../components/Conversation"
 import ListChats from "../components/ListChats"
@@ -23,7 +23,6 @@ export default class Chat extends Component {
 
     try {
       let chat_user = []
-      let chats = []
 
       db.ref("chat_user")
         .child(`${this.state.user.uid}`)
@@ -57,10 +56,6 @@ export default class Chat extends Component {
     }
   }
 
-  componentDidUpdate() {
-    // this.openConversation()
-  }
-
   async handleChatCode(chat_code) {
     this.setState({
       chatCode: chat_code,
@@ -71,8 +66,17 @@ export default class Chat extends Component {
     return (
       <div style={{ maxHeight: "100vh", height: "100%" }}>
         <Header />
-        <Grid container style={{ maxHeight: "100vh", height: "100%" }}>
+        <Grid
+          container
+          style={{
+            maxHeight: "100vh",
+            height: "100%",
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
           <Grid
+            className="MuiGrid-grid-xs-3"
             style={{
               borderRight: "1px solid #e0e0e0",
               maxHeight: "100vh",
@@ -87,10 +91,10 @@ export default class Chat extends Component {
             ></ListChats>
           </Grid>
           <Grid
+            className="MuiGrid-grid-xs-9"
             style={{
-              paddingLeft: "30px",
-              paddingRight: "30px",
               maxHeight: "100vh",
+              height: "100%",
               overflow: "auto",
               marginTop: "50px",
             }}

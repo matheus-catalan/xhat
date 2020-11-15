@@ -1,22 +1,4 @@
-import { db } from "../services/firebase"
-
-// export function readChats() {
-//   let abc = []
-//   db.ref("chats").on("value", (snapshot) => {
-//     snapshot.forEach((snap) => {
-//       abc.push(snap.val())
-//     })
-//     return abc
-//   })
-// }
-
-// export function writeChats(message) {
-//   return db.ref("chats").push({
-//     content: message.content,
-//     timestamp: message.timestamp,
-//     uid: message.uid,
-//   })
-// }
+import { db, auth } from "../services/firebase"
 
 export async function storeChat(chat_name, chat_code, user_id) {
   await db.ref(`chats/${chat_code}`).set({
@@ -43,5 +25,16 @@ export async function addUserInChat(user_id, chat_code) {
       db.ref("chat_user").child(user_id).set({
         chat_code: chats,
       })
+    })
+}
+
+export async function singout() {
+  auth()
+    .signOut()
+    .then(function () {
+      console.log("tteste")
+    })
+    .catch((err) => {
+      console.log(err)
     })
 }

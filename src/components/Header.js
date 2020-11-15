@@ -1,8 +1,13 @@
 import React from "react"
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core"
-import AccountCircle from "@material-ui/icons/AccountCircle"
+import { AppBar, Toolbar, Button, Typography } from "@material-ui/core"
+import { singout } from "../helpers/db"
 
 function Header() {
+  function handleSubmit(event) {
+    event.preventDefault()
+    singout()
+  }
+
   return (
     <AppBar
       position="static"
@@ -19,9 +24,11 @@ function Header() {
         <Typography variant="h5" color="inherit" aria-label="menu">
           Xhat
         </Typography>
-        <IconButton aria-label="profile" color="inherit">
-          <AccountCircle size="large" />
-        </IconButton>
+        <form onSubmit={handleSubmit}>
+          <Button variant="contained" type="submit">
+            Sair
+          </Button>
+        </form>
       </Toolbar>
     </AppBar>
   )

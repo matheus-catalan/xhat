@@ -111,8 +111,6 @@ export default class ListChats extends Component {
               <ListItemText
                 primary={this.props.user.displayName}
               ></ListItemText>
-            </ListItem>
-            <ListItem>
               <IconButton
                 color="primary"
                 component="span"
