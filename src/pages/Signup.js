@@ -7,13 +7,13 @@ import {
   Avatar,
   CssBaseline,
   Typography,
-  Checkbox,
-  FormControlLabel,
   Box,
   Link,
   Grid,
+  MenuItem,
 } from "@material-ui/core"
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
+import axios from "axios"
 
 export default class SignUp extends Component {
   constructor() {
@@ -22,11 +22,25 @@ export default class SignUp extends Component {
       error: null,
       email: "",
       password: "",
+      states: [0],
+      cities: [0],
+      userState: "",
+      userCity: "",
+      loadCities: true,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.googleSignIn = this.googleSignIn.bind(this)
     this.githubSignIn = this.githubSignIn.bind(this)
+    this.handleChangeState = this.handleChangeState.bind(this)
+  }
+
+  async componentDidMount() {
+    await axios
+      .get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/`)
+      .then((res) => {
+        this.setState({ states: res.data })
+      })
   }
 
   handleChange(event) {
@@ -39,7 +53,7 @@ export default class SignUp extends Component {
     event.preventDefault()
     this.setState({ error: "" })
     try {
-      await signup(this.state.email, this.state.password)
+      await signup(this.state.email, this.state.password, this.state.userCity)
     } catch (error) {
       if (error.message === "The email address is badly formatted.")
         this.setState({ error: error.message })
@@ -61,6 +75,23 @@ export default class SignUp extends Component {
       console.log(error)
       this.setState({ error: error.message })
     }
+  }
+
+  async handleChangeState(event) {
+    let state_code = event.target.value
+    this.setState({ userState: state_code })
+
+    await axios
+      .get(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state_code}/distritos`
+      )
+      .then((res) => {
+        this.setState({ cities: res.data, loadCities: false })
+      })
+  }
+
+  async handleChangecity(event) {
+    this.setState({ userCity: event.target.value })
   }
 
   render() {
@@ -125,13 +156,47 @@ export default class SignUp extends Component {
                 onChange={this.handleChange}
                 value={this.state.password}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Lembra senha ?"
-              />
+              <TextField
+                id="standard-select-currency"
+                select
+                fullWidth
+                value={this.state.state}
+                onChange={this.handleChangeState}
+                helperText="Selecione o seu estado"
+              >
+                {this.state.states.map((state, key) => (
+                  <MenuItem
+                    key={state.id !== undefined ? key : 0}
+                    value={state.id !== undefined ? state.id : 0}
+                  >
+                    {state.nome ? state.nome : ""}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="standard-select-currency"
+                select
+                fullWidth
+                required
+                name="userCity"
+                hidden={this.state.loadCities ? true : false}
+                value={this.state.city}
+                onChange={this.handleChange}
+                helperText="Selecione a sua cidade"
+              >
+                {this.state.cities.map((city, key) => (
+                  <MenuItem
+                    key={city.id !== undefined ? key : 0}
+                    value={city.id !== undefined ? city.id : 0}
+                  >
+                    {city.nome ? city.nome : ""}
+                  </MenuItem>
+                ))}
+              </TextField>
               <Button
                 type="submit"
                 fullWidth
+                required
                 variant="contained"
                 color="primary"
                 className="submit"

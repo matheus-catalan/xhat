@@ -100,8 +100,8 @@ export default class ListChats extends Component {
     return (
       <>
         <Grid item className="borderRight500">
-          <List style={{ overflowY: "auto" }}>
-            <ListItem key="RemySharp">
+          <List style={{ overflowY: "auto", marginTop: "10px" }}>
+            <ListItem key="user">
               <ListItemIcon>
                 <Avatar
                   alt="Remy Sharp"
@@ -109,8 +109,23 @@ export default class ListChats extends Component {
                 />
               </ListItemIcon>
               <ListItemText
-                primary={this.props.user.displayName}
+                primary={
+                  this.props.user.displayName
+                    ? this.props.user.displayName
+                    : this.props.user.email
+                }
               ></ListItemText>
+            </ListItem>
+          </List>
+          <Divider />
+          <List
+            style={{
+              maxHeight: "100%",
+              overflowY: "scroll",
+            }}
+          >
+            <ListSubheader>
+              Menssagens
               <IconButton
                 color="primary"
                 component="span"
@@ -190,16 +205,7 @@ export default class ListChats extends Component {
                   </form>
                 </Dialog>
               </IconButton>
-            </ListItem>
-          </List>
-          <Divider />
-          <List
-            style={{
-              maxHeight: "100%",
-              overflowY: "scroll",
-            }}
-          >
-            <ListSubheader>Menssagens</ListSubheader>
+            </ListSubheader>
             {this.props.chats.map((chat) => {
               return (
                 <ListItem
