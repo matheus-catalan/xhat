@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react"
 import { auth, db } from "../services/firebase"
 
 import { List, ListItem, ListItemText, TextField } from "@material-ui/core"
-import axios from "axios"
 
 export default function Conversation(props) {
   const [user, setUser] = useState(auth().currentUser)
   const [conversation, setConversation] = useState([])
   const [content, setContent] = useState("")
   const [chat_code, setChatCode] = useState("")
-  const [cities, setCities] = useState("")
 
   function handleChange(event) {
     event.preventDefault()
@@ -33,14 +31,6 @@ export default function Conversation(props) {
       d.getMonth() + 1
     }/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`
     return time
-  }
-
-  async function getCity(uid) {
-    await axios
-      .get(`http://servicodados.ibge.gov.br/api/v1/localidades/distritos/`)
-      .then((res) => {
-        setCities({ cities: res.data })
-      })
   }
 
   useEffect(() => {
@@ -97,11 +87,8 @@ export default function Conversation(props) {
                 }
               >
                 <ListItemText primary={chat.content}></ListItemText>
-                {console.log(cities)}
                 <ListItemText
-                  secondary={`${getCity(chat.uid)} - ${formatTime(
-                    chat.timestamp
-                  )}`}
+                  secondary={`${formatTime(chat.timestamp)}`}
                 ></ListItemText>
               </ListItem>
             </div>

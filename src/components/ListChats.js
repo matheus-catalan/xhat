@@ -5,7 +5,6 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
-  IconButton,
   Divider,
   Grid,
   ListItemIcon,
@@ -16,12 +15,16 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  MenuItem,
+  Menu,
 } from "@material-ui/core"
 import AddCircleIcon from "@material-ui/icons/AddCircle"
 import { auth } from "../services/firebase"
 import { addUserInChat, storeChat } from "../helpers/db"
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer"
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd"
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown"
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp"
 
 export default class ListChats extends Component {
   constructor(props) {
@@ -35,11 +38,16 @@ export default class ListChats extends Component {
       loadingChats: false,
       chat_name: "",
       chat_code: "",
+      anchorEl: null,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleChange2 = this.handleChange2.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleSubmit2 = this.handleSubmit2.bind(this)
+    this.handleOpenOptions = this.handleOpenOptions.bind(this)
+    this.handleCloseOptions = this.handleCloseOptions.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+    this.handleClose2 = this.handleClose2.bind(this)
   }
 
   handleChange(event) {
@@ -96,6 +104,17 @@ export default class ListChats extends Component {
     })
   }
 
+  handleOpenOptions = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    })
+  }
+  handleCloseOptions = () => {
+    this.setState({
+      anchorEl: false,
+    })
+  }
+
   render() {
     return (
       <>
@@ -124,88 +143,117 @@ export default class ListChats extends Component {
               overflowY: "scroll",
             }}
           >
-            <ListSubheader>
+            <ListSubheader
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               Menssagens
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={this.handleOpen}
+              <Button
+                onClick={this.handleOpenOptions}
+                aria-controls="customized-menu"
+                aria-haspopup="true"
               >
-                <AddCircleIcon />
-                <Dialog
-                  open={this.state.open}
-                  onClose={this.handleClose}
-                  aria-labelledby="form-dialog-title"
-                >
-                  <form onSubmit={this.handleSubmit}>
-                    <DialogContent>
-                      <DialogContentText>Adicionar chat</DialogContentText>
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="chat_id"
-                        name="chat_id"
-                        label="Código do chat"
-                        type="text"
-                        fullWidth
-                        onChange={this.handleChange}
-                        value={this.state.chat_id}
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button color="primary" type="submit">
-                        Enviar
-                      </Button>
-                    </DialogActions>
-                  </form>
-                </Dialog>
-              </IconButton>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={this.handleOpen2}
+                {Boolean(this.state.anchorEl) ? (
+                  <KeyboardArrowDownIcon />
+                ) : (
+                  <KeyboardArrowUpIcon />
+                )}
+              </Button>
+              <Menu
+                id="customized-menu"
+                keepMounted
+                anchorEl={this.state.anchorEl}
+                open={Boolean(this.state.anchorEl)}
+                onClose={this.handleCloseOptions}
               >
-                <LibraryAddIcon />
-                <Dialog
-                  open={this.state.open2}
-                  onClose={this.handleClose2}
-                  aria-labelledby="form-dialog-title"
-                >
-                  <form onSubmit={this.handleSubmit2}>
-                    <DialogContent>
-                      <DialogContentText>Criar chat</DialogContentText>
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="chat_name"
-                        name="chat_name"
-                        label="Nome do chat"
-                        type="text"
-                        fullWidth
-                        onChange={this.handleChange2}
-                        value={this.state.chat_name}
-                      />
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="chat_code"
-                        name="chat_code"
-                        label="codigo do chat"
-                        type="text"
-                        fullWidth
-                        onChange={this.handleChange2}
-                        value={this.state.code_chat}
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button color="primary" type="submit">
-                        Enviar
-                      </Button>
-                    </DialogActions>
-                  </form>
-                </Dialog>
-              </IconButton>
+                <MenuItem onClick={this.handleOpen}>
+                  <ListItemIcon>
+                    <AddCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Entrar em um chat" />
+                </MenuItem>
+                <MenuItem onClick={this.handleOpen2}>
+                  <ListItemIcon>
+                    <LibraryAddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Crir um chat" />
+                </MenuItem>
+              </Menu>
             </ListSubheader>
+            <Dialog
+              open={this.state.open2}
+              onClose={this.handleClose2}
+              aria-labelledby="form-dialog-title"
+            >
+              <form onSubmit={this.handleSubmit2}>
+                <DialogContent>
+                  <DialogContentText>Criar chat</DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="chat_name"
+                    name="chat_name"
+                    label="Nome do chat"
+                    type="text"
+                    fullWidth
+                    onChange={this.handleChange2}
+                    value={this.state.chat_name}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="chat_code"
+                    name="chat_code"
+                    label="codigo do chat"
+                    type="text"
+                    fullWidth
+                    onChange={this.handleChange2}
+                    value={this.state.code_chat}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button color="secundary" onClick={this.handleClose2}>
+                    Cancelar
+                  </Button>
+                  <Button color="primary" type="submit">
+                    Enviar
+                  </Button>
+                </DialogActions>
+              </form>
+            </Dialog>
+            <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <form onSubmit={this.handleSubmit}>
+                <DialogContent>
+                  <DialogContentText>Adicionar chat</DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="chat_id"
+                    name="chat_id"
+                    label="Código do chat"
+                    type="text"
+                    fullWidth
+                    onChange={this.handleChange}
+                    value={this.state.chat_id}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button color="secundary" onClick={this.handleClose}>
+                    Cancelar
+                  </Button>
+                  <Button color="primary" type="submit">
+                    Enviar
+                  </Button>
+                </DialogActions>
+              </form>
+            </Dialog>
             {this.props.chats.map((chat) => {
               return (
                 <ListItem
